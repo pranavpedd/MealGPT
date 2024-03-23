@@ -24,7 +24,8 @@ def get_recipe(ingredients, cuisine):
     explain them step by step to anyone - However if there are ingredients that a user does \
     not list which are needed, label those ingredients as 'additional' and list the ones \
     provided as 'provided' and if more spices are required make sure to let the user know \
-    this only works assuming they have those spices"
+    this only works assuming they have those spices and provide the average cost of the meal \
+    in US dollars"
 
     completion = client.chat.completions.create(
         model='gpt-3.5-turbo',
