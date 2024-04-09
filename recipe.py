@@ -54,7 +54,7 @@ def get_recipe(ingredients, cuisine, restriction):
             {
                 "role": "user",
                 "content": f"Make a dish with the following ingredients: {ingredients.lower()}. \
-                    The cuisine is {cuisine.lower()}. I have these dietary restrictions: {restriction.lower()}",
+                    The cuisine is {cuisine.lower()}. Tailor to these dietary restrictions: {restriction.lower()}",
             },
         ],
     )
