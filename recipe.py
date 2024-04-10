@@ -19,7 +19,6 @@ def get_ingredients():
         ingredients.append(ingredient)
 
     ingredients_str = ", ".join(ingredients)
-
     cuisine = input("Cuisine: ")
 
     restrictions = []
@@ -62,6 +61,7 @@ def get_recipe(ingredients, cuisine, restriction):
     file_name = "recipe.md"
     pdf_file_name = file_name.replace('.md', '.pdf')
     extension = "w" if os.path.isfile(file_name) else "x"
+
     with open(file_name, extension) as f:
         f.write(completion.choices[0].message.content.strip())
 
