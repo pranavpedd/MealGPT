@@ -1,2 +1,3 @@
 # MealGPT
-Allowing users to get meal ideas based on the ingredients they have and the specific cuisine they desire!
+
+Allowing users to get meal ideas based on the ingredients they have, dietary resitrctions, and any specific cuisine they desire!

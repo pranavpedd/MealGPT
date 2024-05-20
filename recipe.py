@@ -44,12 +44,17 @@ def get_recipe(ingredients, cuisine, restriction):
     top - The user may give you dietary restrictions so make sure you dont include ingredients which would go \
     against these restrictions - It may also be empty in which case proceed with the recipe you were going to give them - \
     Lastly format everything in VERY NEAT AND ORGANIZED markdown so the user can easily read everything when rendered \
-    If they have dietary restrictions create a heading and list those out as well in NEAT markdown"
+    If they have dietary restrictions create a heading and list those out as well in NEAT markdown, if there are no \
+    dietary restrictions then proceed normally as you would. If no cuisine is provided, choose a random one for the user!"
 
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": train_msg},
+            {
+                "role": "system", 
+                "content": train_msg
+            },
+
             {
                 "role": "user",
                 "content": f"Make a dish with the following ingredients: {ingredients.lower()}. \
