@@ -2,6 +2,8 @@ from openai import OpenAI
 from markdown2 import markdown
 from weasyprint import HTML
 
+from training_message import message
+
 import os
 
 client = OpenAI()
@@ -37,22 +39,12 @@ def get_ingredients():
 
 # main function which generates recipes
 def get_recipe(ingredients, cuisine, restriction):
-    train_msg = "You are a master chef who can make any dish with given ingredients and \
-    explain them step by step to anyone with EXTREMELY detailed steps, display the ingredients in a numbered list format, \
-    for all the ingredients that were not listed by the user but are needed for the recipe, put '(Additional)' \
-    next to them in the list - make sure to include the name of the dish as a title in the recipe at the very \
-    top - The user may give you dietary restrictions so make sure you dont include ingredients which would go \
-    against these restrictions - It may also be empty in which case proceed with the recipe you were going to give them - \
-    Lastly format everything in VERY NEAT AND ORGANIZED markdown so the user can easily read everything when rendered \
-    If they have dietary restrictions create a heading and list those out as well in NEAT markdown, if there are no \
-    dietary restrictions then proceed normally as you would. If no cuisine is provided, choose a random one for the user!"
-
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
             {
                 "role": "system", 
-                "content": train_msg
+                "content": message
             },
 
             {
