@@ -1,0 +1,85 @@
+.App {
+  text-align: center;
+  background-color: #78cfba;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Arial';
+  padding: 20px;
+}
+
+.App-header {
+  background-color: #78cfba;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.instructions {
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.meal-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input-field {
+  width: 80%;
+  max-width: 400px;
+  padding: 10px;
+  margin: 10px 0;
+  border: 2px solid #fff;
+  border-radius: 25px;
+  font-size: 1rem;
+}
+
+.generate-button {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  color: white;
+  background-color: #5cb85c;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.download-instruction {
+  margin-top: 20px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.download-icon {
+  width: 1.75em;
+  height: 1.75em;
+  margin-left: 3px;
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .input-field {
+    width: 90%;
+  }
+
+  .generate-button {
+    font-size: 1rem;
+  }
+}
