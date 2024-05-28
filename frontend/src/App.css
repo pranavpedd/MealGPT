@@ -45,6 +45,12 @@ h1 {
   font-size: 1rem;
 }
 
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Add some space between the buttons */
+}
+
 .generate-button {
   padding: 10px 20px;
   font-size: 1.2rem;
@@ -57,6 +63,14 @@ h1 {
 }
 
 .download-instruction {
+  margin-top: 20px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-message {
   margin-top: 20px;
   font-size: 1rem;
   display: flex;

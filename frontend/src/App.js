@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import downloadLogo from './download-icon.png'
+import downloadLogo from './download-icon.png';
 import './App.css';
 
 function App() {
@@ -11,6 +11,8 @@ function App() {
   });
 
   const [downloadLink, setDownloadLink] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [recipeGenerated, setRecipeGenerated] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,17 +25,38 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Form data:', formData);
+    setLoading(true);
+    setDownloadLink(null);
     try {
-      const response = await axios.post('http://127.0.0.1:5000/generate-recipe', formData, {
-        responseType: 'blob',
-      });
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      setDownloadLink(url);
+      const generateResponse = await axios.post('http://127.0.0.1:5000/generate-recipe', formData);
+      if (generateResponse.status === 201) {
+        const response = await axios.get('http://127.0.0.1:5000/download-recipe', {
+          responseType: 'blob',
+        });
+        const url = window.URL.createObjectURL(
+          new Blob([response.data], { type: 'application/pdf' })
+        );
+        setDownloadLink(url);
+        setRecipeGenerated(true);
+      } else {
+        console.error('Failed to generate the recipe.');
+      }
     } catch (error) {
       console.error('There was an error!', error);
+    } finally {
+      setLoading(false);
     }
   };
 
+  const handleClear = () => {
+    setFormData({
+      ingredients: '',
+      cuisine: '',
+      restriction: '',
+    });
+    setDownloadLink(null);
+    setRecipeGenerated(false);
+  };
 
   return (
     <div className="App">
@@ -69,17 +92,32 @@ function App() {
             value={formData.restriction}
             onChange={handleChange}
           />
-          <button type="submit" className="generate-button">
-            Generate
-          </button>
+          <div className="button-group">
+            <button type="submit" className="generate-button">
+              Generate
+            </button>
+            {recipeGenerated && (
+              <button type="button" className="generate-button" onClick={handleClear}>
+                Clear
+              </button>
+            )}
+          </div>
         </form>
-        {downloadLink && (
-          <p className="download-instruction">
-            Download your recipe here!{' '}
-            <a href={downloadLink} download="recipe.pdf" target="_blank" rel="noopener noreferrer">
-              <img className="download-icon" src={downloadLogo} alt="Download" />
-            </a>
-          </p>
+        {loading ? (
+          <p className="loading-message">Loading...</p>
+        ) : (
+          downloadLink && (
+            <p className="download-instruction">
+              Download your recipe here!{' '}
+              <a
+                href={downloadLink}
+                download="recipe.pdf"
+                target="_blank"
+                rel="noopener noreferrer">
+                <img className="download-icon" src={downloadLogo} alt="Download" />
+              </a>
+            </p>
+          )
         )}
       </header>
       <div id="footer">

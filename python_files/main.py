@@ -1,20 +1,20 @@
-from flask import Flask, request, jsonify, send_from_directory, send_file
-from flask_cors import CORS # type: ignore
+from flask import Flask, request, jsonify, send_from_directory
+from flask_cors import CORS  # type: ignore
 from recipe import get_recipe
 from markdown2 import markdown
 from weasyprint import HTML
 import os
 
 app = Flask(__name__)
-cors = CORS(app, origins='*')
+cors = CORS(app, origins="*")
 
-@app.route('/generate-recipe', methods=['POST'])
+
+@app.route("/generate-recipe", methods=["POST"])
 def generate_recipe():
-    print('Request to make recipe received')
     data = request.json
-    ingredients = data.get('ingredients')
-    cuisine = data.get('cuisine')
-    restriction = data.get('restriction')
+    ingredients = data.get("ingredients")
+    cuisine = data.get("cuisine")
+    restriction = data.get("restriction")
 
     recipe = get_recipe(ingredients, cuisine, restriction)
     if recipe:
@@ -31,14 +31,18 @@ def generate_recipe():
         html_content = markdown(md_content)
         HTML(string=html_content).write_pdf(pdf_file_name)
         os.remove(file_name)
-        # return send_from_directory(directory='python_files', path='recipe.pdf', as_attachment=True)
-        return jsonify({'message': 'Recipe was made successfully!'}), 201
+        return jsonify({"message": "Recipe was made successfully!"}), 201
     else:
-        return jsonify({'message': 'Failed to generate recipe'}), 500
+        return jsonify({"message": "Failed to generate recipe"}), 500
 
-@app.route('/recipe.pdf')
+
+@app.route("/download-recipe", methods=["GET"])
 def download_recipe():
-    return send_from_directory(directory='python_files', path='recipe.pdf', as_attachment=True)
+    root_dir = os.getcwd()
+    return send_from_directory(
+        directory=root_dir, path="recipe.pdf", as_attachment=True
+    )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     app.run(debug=True)
