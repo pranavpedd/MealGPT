@@ -4,7 +4,7 @@
 
 ## About
 
-MealGPT is an application that helps users discover meal ideas based on their available ingredients, dietary restrictions, and preferred cuisines. Developed using React.js for the front-end, Python for the backend, and the OpenAI API for generating meal suggestions, the app provides a seamless experience. Users can input their ingredients, specify dietary needs, and choose a cuisine type, and MealGPT will deliver personalized and creative meal ideas that fit their criteria!
+MealGPT is an application that helps users discover meal ideas based on their available ingredients, dietary restrictions, and preferred cuisines. Developed using React.js for the front-end, Python for the backend, and the OpenAI API for generating meal suggestions, the app provides a seamless experience. Users can input their ingredients, specify dietary needs, choose a cuisine, and MealGPT will deliver personalized and creative meal ideas that fit their criteria!
 
 ## Getting Started with Create React App
 
