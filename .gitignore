@@ -5,4 +5,11 @@ recipe.pdf
 recipe.py
 frontend/src/download-icon.png
 frontend/public/robots.txt
+frontend/favicons
 run.sh
+frontend/public/apple-touch-icon.png
+frontend/public/favicon-16x16.png
+frontend/public/favicon-32x32.png
+frontend/public/safari-pinned-tab.svg
+frontend/public/site.webmanifest
+favicon.ico
