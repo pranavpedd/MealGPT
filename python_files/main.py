@@ -2,16 +2,12 @@ from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS  # type: ignore
 from recipe import get_recipe
 from markdown2 import markdown
-from weasyprint import HTML
+from weasyprint import HTML, CSS
 import os
 
 # flask app setup
 app = Flask(__name__)
 CORS(app, origins="*")
-
-# @app.route('/')
-# def serve():
-#     return send_from_directory(app.static_folder, 'index.html')
 
 
 @app.route("/generate-recipe", methods=["POST"])
@@ -41,7 +37,28 @@ def generate_recipe():
             md_content = md_file.read()
 
         html_content = markdown(md_content)
-        HTML(string=html_content).write_pdf(pdf_file_name)
+        html_with_style = f"""
+        <html>
+        <head></head>
+        <body>
+            {html_content}
+        </body>
+        </html>
+        """
+
+        css = CSS(
+            string="""
+        @font-face {
+            font-family: 'Arial';
+        }
+        body {
+            font-family: 'Arial';
+        }
+        """
+        )
+
+        # Convert HTML to PDF with WeasyPrint, applying the CSS
+        HTML(string=html_with_style).write_pdf(pdf_file_name, stylesheets=[css])
         os.remove(file_name)
         return (
             jsonify(
