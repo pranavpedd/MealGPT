@@ -29,16 +29,13 @@ function App() {
     setLoading(true);
     setDownloadLink(null);
     try {
-      const generateResponse = await axios.post('http://127.0.0.1:5000/generate-recipe', formData);
+      const generateResponse = await axios.post('/generate-recipe', formData);
       if (generateResponse.status === 201) {
         const filename = generateResponse.data.filename;
         const recipeTitle = filename.replace('.pdf', '');
-        const response = await axios.get(
-          `http://127.0.0.1:5000/download-recipe?filename=${filename}`,
-          {
-            responseType: 'blob',
-          }
-        );
+        const response = await axios.get(`/download-recipe?filename=${filename}`, {
+          responseType: 'blob',
+        });
         const url = window.URL.createObjectURL(
           new Blob([response.data], { type: 'application/pdf' })
         );

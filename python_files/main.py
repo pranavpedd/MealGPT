@@ -1,12 +1,23 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, send_from_directory
 from flask_cors import CORS  # type: ignore
 from recipe import get_recipe
 from markdown2 import markdown
 from weasyprint import HTML
+from dotenv import load_dotenv
 import os
+import openai
 
-app = Flask(__name__)
-cors = CORS(app, origins="*")
+# flask app setup
+app = Flask(__name__, static_folder='../frontend/build', static_url_path='')
+CORS(app, origins="*")
+
+# open ai api key retrieval
+load_dotenv()
+openai.api_key = os.getenv('OPENAI_API_KEY')
+
+@app.route('/')
+def serve():
+    return send_from_directory(app.static_folder, 'index.html')
 
 
 @app.route("/generate-recipe", methods=["POST"])
