@@ -11,6 +11,7 @@ function App() {
   });
 
   const [downloadLink, setDownloadLink] = useState(null);
+  const [recipeTitle, setRecipeTitle] = useState('');
   const [loading, setLoading] = useState(false);
   const [recipeGenerated, setRecipeGenerated] = useState(false);
 
@@ -30,13 +31,19 @@ function App() {
     try {
       const generateResponse = await axios.post('http://127.0.0.1:5000/generate-recipe', formData);
       if (generateResponse.status === 201) {
-        const response = await axios.get('http://127.0.0.1:5000/download-recipe', {
-          responseType: 'blob',
-        });
+        const filename = generateResponse.data.filename;
+        const recipeTitle = filename.replace('.pdf', '');
+        const response = await axios.get(
+          `http://127.0.0.1:5000/download-recipe?filename=${filename}`,
+          {
+            responseType: 'blob',
+          }
+        );
         const url = window.URL.createObjectURL(
           new Blob([response.data], { type: 'application/pdf' })
         );
-        setDownloadLink(url);
+        setDownloadLink({ url, filename });
+        setRecipeTitle(recipeTitle);
         setRecipeGenerated(true);
       } else {
         console.error('Failed to generate the recipe.');
@@ -56,6 +63,7 @@ function App() {
     });
     setDownloadLink(null);
     setRecipeGenerated(false);
+    setRecipeTitle('');
   };
 
   return (
@@ -107,16 +115,19 @@ function App() {
           <p className="loading-message">Loading...</p>
         ) : (
           downloadLink && (
-            <p className="download-instruction">
-              Download your recipe here!{' '}
-              <a
-                href={downloadLink}
-                download="recipe.pdf"
-                target="_blank"
-                rel="noopener noreferrer">
-                <img className="download-icon" src={downloadLogo} alt="Download" />
-              </a>
-            </p>
+            <>
+              <p className="recipe-title">{recipeTitle}</p>
+              <p className="download-instruction">
+                Download your recipe here!{' '}
+                <a
+                  href={downloadLink.url}
+                  download={downloadLink.filename}
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  <img className="download-icon" src={downloadLogo} alt="Download" />
+                </a>
+              </p>
+            </>
           )
         )}
       </header>
