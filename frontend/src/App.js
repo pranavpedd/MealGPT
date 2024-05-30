@@ -116,7 +116,7 @@ function App() {
         ) : (
           downloadLink && (
             <>
-              <p className="recipe-title">{recipeTitle}</p>
+              <p className="recipe-title">Here is your recipe: {recipeTitle}</p>
               <p className="download-instruction">
                 Download your recipe here!{' '}
                 <a
